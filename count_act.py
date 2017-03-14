@@ -10,5 +10,6 @@ for row in cr:
     if row[2] not in list_action:
     	list_action.append(row[2])
 
-list_action.sort()
+list_action.pop(0)
+list_action.sort(key=str.lower)
 print list_action
