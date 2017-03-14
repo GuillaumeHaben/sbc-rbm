@@ -1,30 +1,29 @@
-from tsv import DictReader
+from csv import DictReader
 from rbm import RBM, np
 
-geneSet = set()
-drugSet = set()
+TRAINING_SAMPLE_SIZE = 100
 
-trainingSetFile = open("sets/training_set_91_91.tsv")
-trainingSet = DictReader(trainingSetFile)
+localQuerier = Querier('http://127.0.0.1:9999/bigdata/sparql')
+localPropertyFinder = PropertyFinder(localQuerier)
 
-for row in trainingSet:
-    geneSet.add(row['gene'])
-    drugSet.add(row['drug'])
+effectsList = [0, 0, 0]
 
-geneList = list(geneSet)
-drugList = list(drugSet)
+csvFile = open("result.tsv")
+trainingSet = DictReader(csvFile)[:TRAINING_SAMPLE_SIZE]
 
-trainingData = [[0 for i in range(len(drugList))] for j in range(len(geneList))]
+trainingRows = []
+trainingData = [[0 for i in range(len(effectsList))] for j in range(TRAINING_SAMPLE_SIZE)]
 
 for row in trainingSet:
-    geneIndex = geneList.index(row['gene'])
-    drugIndex = drugList.index(row['drug'])
-    associatied = {'associated': 1, 'not associated': 0}.get(row['association'])
-    trainingData[geneIndex][drugIndex] = associatied
+    geneProperties = DictReader(localPropertyFinder.findGeneProperties(row['gene']))
+    # TODO: trouver les index
+    # - Pour chaque dictionnaire de geneProperties, trouver son indice dans effectsList
+    # - trainingData[indice de row][indice du dico] = 1
+    drugProperties = DictReader(localPropertyFinder.findDrugProperties(row['drug']))
+    # TODO: idem
 
-rbm = RBM(num_visible=len(drugList), num_hidden=8)
+
+rbm = RBM(num_visible=len(effectsList), num_hidden=30)
 rbm.train(np.array(trainingData), max_epochs = 300)
-
-print(rbm.run_hidden(np.array([[1,0,1,0,0,1,1,0]])))
 
 trainingSet.close()

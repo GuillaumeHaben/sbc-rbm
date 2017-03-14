@@ -17,18 +17,17 @@ class Querier():
                 prefix = blocks[1]
                 uri = blocks[2].replace('<', '').replace('>', '')
                 self.prefixes[uri] = prefix
-            else:
-                finalQuery = finalQuery + "\n" + line
-                if "SELECT" in line:
-                    for word in line.split(' '):
-                        if word[0] == '?':
-                            args.append(word[1:])
+            finalQuery = finalQuery + "\n" + line
+            if "SELECT" in line:
+                for word in line.split(' '):
+                    if word[0] == '?':
+                        args.append(word[1:])
         for arg in args:
             csv = csv + arg + ','
         csv = csv[:len(csv)-1] + '\n'
-        print "Querying server"
+        print("Querying server")
         result = self.server.query(text)
-        print "Done"
+        print("Done")
         for b in result['results']['bindings']:
             line = ""
             for arg in args:
