@@ -1,0 +1,30 @@
+/* ---- 1: rose vert ---- */
+SELECT DISTINCT ?mediSpanDrug ?mediSpanDisease
+
+WHERE {
+  { ?mediSpanDrug medispan:indication ?mediSpanDisease } 
+  UNION { ?mediSpanDrug medispan:side_effect ?mediSpanDisease} 
+}
+
+/* ---- 2: rose vert ---- */
+SELECT DISTINCT ?siderDrug ?siderDisease
+
+WHERE {
+  { ?siderDrug siderv:indication ?siderDisease } 
+  UNION { ?siderDrug siderv:side_effect ?siderDisease} 
+}
+
+/* ---- 3: bleu vert ---- */
+SELECT DISTINCT ?disGenetVariant ?disGenetDisease
+
+WHERE {
+  ?disGenetVariant sio:SIO_000628 ?disGenetDisease 
+}
+
+/* ---- 4: bleu vert ---- */
+SELECT DISTINCT ?clinvarVariant ?disGenetDisease
+
+WHERE {
+  { ?clinvarVariant clinvarv:Variant_Phenotype ?disGenetDisease }
+  UNION { ?clinvarVariant clinvar:x-medgen ?disGenetDisease } 
+}
