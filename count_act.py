@@ -7,7 +7,7 @@ list_action = []
 
 for row in cr:
     
-    if row[2] not in list_action:
+    if str.lower(row[2]) not in list_action:
     	list_action.append(row[2])
 
 list_action.pop(0)
