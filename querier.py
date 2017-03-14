@@ -35,6 +35,7 @@ class Querier():
                 line = line + self.replacePrefix(b[arg]['value']) + ','
             line = line[:len(line)-1] + '\n'
             csv = csv + line
+        print csv
         return csv
 
     def replacePrefix(self, text):
