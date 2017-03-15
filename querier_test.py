@@ -30,61 +30,68 @@ PREFIX uniprot: <http://bio2rdf.org/uniprot:>
 """
 
 query1 = """
-SELECT DISTINCT ?mediSpanDrug ?mediSpanDisease
+SELECT DISTINCT ?effect ?disease
 
 WHERE {
-  ?mediSpanDrug medispan:indication ?mediSpanDisease
+  ?mediSpanDrug medispan:indication ?disease
+  ?mediSpanDrug ?effect ?disease
 }
 """
 
 query2 = """
-SELECT DISTINCT ?mediSpanDrug ?mediSpanDisease
+SELECT DISTINCT ?effect ?disease
 
 WHERE {
-  ?mediSpanDrug medispan:side_effect ?mediSpanDisease
+  ?mediSpanDrug medispan:side_effect ?disease
+  ?mediSpanDrug ?effect ?disease
 }
 """
 
 query3 = """
-SELECT DISTINCT ?siderDrug ?siderDisease
+SELECT DISTINCT ?effect ?disease
 
 WHERE {
-  ?siderDrug siderv:indication ?siderDisease
+  ?siderDrug siderv:indication ?disease
+  ?siderDrug ?effect ?disease
 }
 """
 
 # Vide a priori
 query4 = """
-SELECT DISTINCT ?siderDrug ?siderDisease
+SELECT DISTINCT ?efect ?disease
 
 WHERE {
-  ?siderDrug siderv:side_effect ?siderDisease 
+  ?siderDrug siderv:side_effect ?disease
+  ?siderDrug ?effect ?disease
 }
 """
 
 # Renvoie une erreur
 query5 = """
-SELECT DISTINCT ?disGenetVariant ?disGenetDisease
+SELECT DISTINCT ?effect ?disease
 
 WHERE {
-  ?disGenetVariant sio:SIO_000628 ?disGenetDisease 
+  ?disGenetVariant sio:SIO_000628 ?disease
+  ?disGenetVariant ?effect ?disease
 }
 """
 
 query6 = """
-SELECT DISTINCT ?clinvarVariant ?disGenetDisease
+SELECT DISTINCT ?effect ?disease
 
 WHERE {
-  ?clinvarVariant clinvarv:Variant_Phenotype ?disGenetDisease
+  ?clinvarVariant clinvarv:Variant_Phenotype ?disease
+  ?clinvarVariant ?effect ?disease
 }
 """
 
 # Vide a priori
 query7 = """
-SELECT DISTINCT ?clinvarVariant ?disGenetDisease
+SELECT DISTINCT ?effect ?disease
 
 WHERE {
-  ?clinvarVariant clinvar:x-medgen ?disGenetDisease
+  ?clinvarVariant clinvar:x-medgen ?disease
+  ?clinvarVariant ?effect ?disease
 }
 """
 
